@@ -1,0 +1,46 @@
+.post-actions {
+    border-top: 1px solid #e9ecef;
+}
+
+.post-actions .small {
+    font-size: 13px;
+}
+
+.post-actions .d-flex span {
+    color: #65676b;
+}
+
+.post-actions .reaction-summary {
+    font-size: 14px;
+    color: #65676b;
+}
+
+
+.modal-content {
+  border-radius: 12px;
+}
+.nav-tabs .nav-link.active {
+  border-bottom: 2px solid #1877f2;
+  color: #1877f2;
+  font-weight: 600;
+}
+.nav-tabs .nav-link {
+  color: #555;
+}
+
+#image-preview-container {
+    position: relative;
+}
+
+#image-preview-wrapper img {
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cursor-pointer:hover {
+    color: #1877f2;
+    transition: color 0.2s ease;
+}
+
