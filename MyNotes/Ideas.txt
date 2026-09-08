@@ -1,0 +1,374 @@
+Yes — and I think the point system should be the foundation, while the RPG/MMORPG layer is built around it.
+
+What you're describing is actually an interesting social-game mechanic:
+
+Users have a limited amount of reputation/life points. Other users can either reward them or damage them. If their points reach 0, their account becomes inactive/frozen until another user revives them.
+
+The important part is designing the rules so people can't easily abuse the system.
+
+A possible core system
+
+Each user has something like:
+
+⚡ Life Points: 10
+
+Other users can perform:
+
++1 point → give another user 1 point
+-2 points → attack/remove 2 points from another user
+When points reach 0 → Frozen
+A different user can give +1 → account becomes Active again
+
+For example:
+
+Alice       ⚡ 10
+Bob         ⚡ 7
+Charlie     ⚡ 2
+David       ⚡ 0  ❄️ FROZEN
+
+Bob gives David +1:
+
+David       ⚡ 1  🟢 ACTIVE
+
+Or Charlie attacks Bob:
+
+Bob: 7 → 5
+But I'd add RPG mechanics around this
+
+Instead of making "points" the entire RPG, separate the concepts:
+
+1. ❤️ Life / Reputation
+
+This is the system you're describing.
+
+❤️ HP / Reputation
+
+It determines whether the user's account is alive/active.
+
+2. ⭐ Experience
+
+Users gain XP from normal social activity:
+
+Post       +10 XP
+Comment    +2 XP
+Like       +1 XP
+Daily login +5 XP
+Complete quest +50 XP
+
+XP gives them levels.
+
+Level 1
+Level 2
+Level 3
+...
+Level 50
+3. 🪙 Currency
+
+Have a separate currency that users can earn/spend.
+
+For example:
+
+🪙 Gold: 1,250
+
+They could buy:
+
+profile cosmetics
+titles
+badges
+avatars
+profile themes
+emotes
+virtual items
+4. ⚔️ PvP / Social Combat
+
+This is where your +1 and -2 mechanic becomes interesting.
+
+A user could have:
+
+⚔️ ATTACK
+❤️ HEAL
+🎁 GIVE
+🛡️ DEFEND
+
+For example:
+
+Attack Robert
+
+Robert loses 2 Life Points.
+
+Heal Robert
+
+Robert gains 1 Life Point.
+
+That makes the social network feel like a game rather than simply a website with a points counter.
+
+I'd make the RPG hierarchy something like this
+                    USER
+                     │
+          ┌──────────┼──────────┐
+          │          │          │
+        LEVEL       LIFE       GOLD
+          │          │          │
+         XP       10 → 0       🪙
+          │          │
+       Quests     Frozen
+       Activity      │
+                    │
+                 Revive
+
+Then your user's profile could become something like:
+
+┌─────────────────────────────────────┐
+│                                     │
+│          ROBERT CAMPOS              │
+│          Level 17 Warrior           │
+│                                     │
+│       ⭐ 17     ❤️ 8/10             │
+│       🪙 2,450  ⚔️ 132              │
+│                                     │
+│  [ Give +1 ] [ Attack -2 ]          │
+│                                     │
+│  🏆 Veteran                          │
+│  🏆 Helpful                          │
+│  🏆 Explorer                         │
+│                                     │
+└─────────────────────────────────────┘
+
+That starts looking much more like an MMORPG/social RPG.
+
+However, there's one BIG problem with +1 / -2
+
+Suppose I have 10 points.
+
+You can attack me:
+
+10 → 8 → 6 → 4 → 2 → 0
+
+Five people can kill my account.
+
+But I can only recover:
+
+0 → 1 → 2 → 3...
+
+That can become extremely brutal.
+
+Worse, imagine a group of users targeting one person.
+
+So I'd introduce daily action limits.
+
+For example:
+
+Give +1
+1 time per user per day
+
+Attack -2
+1 time per user per day
+
+And possibly:
+
+You cannot attack the same person again for 24 hours.
+
+That prevents someone from repeatedly destroying another account.
+
+Even better: make attacks cost something
+
+This is where the RPG part gets much more interesting.
+
+Instead of:
+
+"I can attack anyone for free."
+
+Make attacks consume Energy.
+
+For example:
+
+⚡ Energy: 8/10
+
+Attack → costs 2 Energy
+Heal   → costs 1 Energy
+
+Now users have to decide how they spend their actions.
+
+Example:
+
+Alice
+
+❤️ 8 Life
+⚡ 6 Energy
+⭐ Level 12
+🪙 850 Gold
+
+Alice attacks Bob:
+
+Alice
+Energy: 6 → 4
+
+Bob
+Life: 7 → 5
+
+Now there's an actual game loop.
+
+And then you can introduce classes
+
+This is where the MMORPG concept can start becoming clearer.
+
+Users could eventually choose a class:
+
+⚔️ Warrior
+
+Good at attacking.
+
+Attack damage: 3
+Defense: high
+Healing: low
+🧙 Mage
+
+Special abilities.
+
+Magic attack
+Area attacks
+Debuffs
+❤️ Priest
+
+Excellent at helping other users.
+
+Heal +2
+Revive
+Remove debuffs
+🗡️ Rogue
+
+Social/PvP-oriented.
+
+Critical attack
+Steal gold
+Dodge
+
+You don't need to implement these initially.
+
+Start with the point system first.
+
+The "Frozen Account" idea is particularly interesting
+
+I'd turn this into an actual RPG state.
+
+❤️ 10-6   Healthy
+❤️ 5-3    Injured
+❤️ 2-1    Critical
+❤️ 0      Frozen
+
+When frozen:
+
+┌─────────────────────────────┐
+│ ❄️ CHARACTER FROZEN         │
+│                             │
+│ Your Life Points reached 0. │
+│                             │
+│ Another player must revive  │
+│ you to return to the world. │
+│                             │
+│ ❤️ 0/10                     │
+│                             │
+│ [ Request Revival ]         │
+└─────────────────────────────┘
+
+And your friends might see:
+
+David has fallen! ❄️
+
+Then someone can click:
+
+[ Revive David +1 ]
+
+That is much more memorable than simply saying "account disabled."
+
+I'd also make "revival" social
+
+This could become one of the strongest parts of the game.
+
+When someone is frozen:
+
+David has fallen.
+
+[ ❤️ Revive +1 ]
+
+You have 3 Revival Tokens.
+
+Perhaps users who frequently help others receive a title:
+
+🏆 Savior
+🏆 Guardian
+🏆 Healer
+🏆 Angel
+
+Now being a helpful member of the social network has gameplay value.
+
+Your social media → RPG transformation could therefore be
+Normal social media
+Post
+ ↓
+Likes
+ ↓
+Comments
+ ↓
+Followers
+Your version
+                 SOCIAL WORLD
+                      │
+       ┌──────────────┼──────────────┐
+       ↓              ↓              ↓
+     SOCIAL          RPG            PVP
+       │              │              │
+    Posts           XP/Levels      Attack
+    Comments        Quests         Defend
+    Friends         Classes        Heal
+    Groups          Items          Revive
+       │              │              │
+       └──────────────┼──────────────┘
+                      ↓
+                 PLAYER PROFILE
+                      │
+                ❤️ LIFE POINTS
+
+And that's the direction I'd recommend.
+
+Don't try to build a full MMORPG immediately. Your first version could be:
+
+Phase 1
+
+Life points
++1 give
+-2 attack
+Frozen at 0
+Revival
+Activity/XP
+Levels
+
+Phase 2
+
+Energy
+Gold
+Daily quests
+Achievements
+Titles
+Leaderboards
+
+Phase 3
+
+Classes
+Skills
+Equipment
+Guilds
+PvP
+Events
+Bosses/world events
+
+Phase 4
+
+Full RPG world/map
+NPCs
+Dungeons
+Parties
+Guild wars
+MMORPG-style progression
+
+The key design decision I'd make right now is to keep Life Points, XP, and Gold completely separate. Otherwise your point system will become confusing and balancing it later will be painful.
