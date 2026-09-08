@@ -19,11 +19,9 @@
         overflow: hidden;
 
         background:
-            linear-gradient(
-                180deg,
+            linear-gradient(180deg,
                 rgba(15, 23, 42, 0.98),
-                rgba(2, 6, 23, 0.99)
-            );
+                rgba(2, 6, 23, 0.99));
 
         border-right:
             1px solid rgba(255, 255, 255, 0.08);
@@ -96,11 +94,9 @@
         white-space: nowrap;
 
         background:
-            linear-gradient(
-                135deg,
+            linear-gradient(135deg,
                 rgba(6, 182, 212, 0.12),
-                rgba(124, 58, 237, 0.08)
-            );
+                rgba(124, 58, 237, 0.08));
 
         border:
             1px solid rgba(255, 255, 255, 0.08);
@@ -315,12 +311,10 @@
         color: white !important;
 
         background:
-            linear-gradient(
-                135deg,
+            linear-gradient(135deg,
                 rgba(6, 182, 212, 0.3),
                 rgba(37, 99, 235, 0.3),
-                rgba(124, 58, 237, 0.25)
-            );
+                rgba(124, 58, 237, 0.25));
 
         border:
             1px solid rgba(34, 211, 238, 0.3);
@@ -334,11 +328,9 @@
         color: white;
 
         background:
-            linear-gradient(
-                135deg,
+            linear-gradient(135deg,
                 #06b6d4,
-                #2563eb
-            );
+                #2563eb);
 
         box-shadow:
             0 5px 18px rgba(6, 182, 212, 0.3);
@@ -355,12 +347,10 @@
         margin: 16px 8px !important;
 
         background:
-            linear-gradient(
-                90deg,
+            linear-gradient(90deg,
                 transparent,
                 rgba(255, 255, 255, 0.15),
-                transparent
-            );
+                transparent);
     }
 
 
@@ -485,7 +475,7 @@
        sidebar expands.
     */
 
-    .sidebar:hover ~ .main-content {
+    .sidebar:hover~.main-content {
         margin-left: 280px;
     }
 
@@ -513,7 +503,7 @@
         }
 
 
-        .sidebar:hover ~ .main-content {
+        .sidebar:hover~.main-content {
             margin-left: 72px;
         }
 
@@ -609,6 +599,18 @@
             </a>
 
         </li>
+
+        <li>
+            <a href="{{ route('user.clash-of-clan') }}" class="sidebar-link">
+                <i class="material-icons">
+                    sports_esports
+                </i>
+                <span>
+                    Clash of Clans
+                </span>
+            </a>
+        </li>
+
 
 
         {{-- DIVIDER --}}
