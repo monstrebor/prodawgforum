@@ -1,0 +1,437 @@
+/* =========================================
+       GLOBAL
+    ========================================= */
+
+    #auth-page {
+        min-height: 100vh;
+        background: #020617;
+        perspective: 1400px;
+        overflow: hidden;
+    }
+
+
+    /* =========================================
+       CONSTANTLY CHANGING ANIMATED BACKGROUND
+    ========================================= */
+
+    #animated-background {
+        position: fixed;
+        inset: 0;
+        z-index: -30;
+
+        background:
+            radial-gradient(circle at 20% 30%,
+                rgba(6, 182, 212, 0.35),
+                transparent 45%),
+            radial-gradient(circle at 80% 20%,
+                rgba(139, 92, 246, 0.35),
+                transparent 45%),
+            radial-gradient(circle at 50% 80%,
+                rgba(236, 72, 153, 0.25),
+                transparent 50%),
+            linear-gradient(-45deg,
+                #020617,
+                #0f172a,
+                #172554,
+                #1e1b4b,
+                #3b0764,
+                #042f2e,
+                #082f49,
+                #020617);
+
+        background-size:
+            100% 100%,
+            100% 100%,
+            100% 100%,
+            600% 600%;
+
+        animation:
+            gradientShift 25s ease infinite,
+            backgroundPulse 12s ease-in-out infinite alternate;
+
+        will-change: background-position, filter;
+    }
+
+
+    /* Main color movement */
+
+    @keyframes gradientShift {
+
+        0% {
+            background-position:
+                0% 0%,
+                100% 0%,
+                50% 100%,
+                0% 50%;
+        }
+
+        25% {
+            background-position:
+                20% 10%,
+                80% 20%,
+                60% 80%,
+                50% 100%;
+        }
+
+        50% {
+            background-position:
+                40% 30%,
+                60% 40%,
+                40% 60%,
+                100% 50%;
+        }
+
+        75% {
+            background-position:
+                60% 20%,
+                40% 60%,
+                70% 40%,
+                50% 0%;
+        }
+
+        100% {
+            background-position:
+                0% 0%,
+                100% 0%,
+                50% 100%,
+                0% 50%;
+        }
+    }
+
+
+    /* Subtle brightness breathing */
+
+    @keyframes backgroundPulse {
+
+        0% {
+            filter:
+                hue-rotate(0deg) brightness(1) saturate(1);
+        }
+
+        50% {
+            filter:
+                hue-rotate(25deg) brightness(1.15) saturate(1.25);
+        }
+
+        100% {
+            filter:
+                hue-rotate(-20deg) brightness(1.05) saturate(1.15);
+        }
+    }
+
+
+    /* =========================================
+       ANIMATED LIGHT BLOBS
+    ========================================= */
+
+    .bg-blob {
+        position: absolute;
+
+        width: 550px;
+        height: 550px;
+
+        border-radius: 50%;
+
+        filter: blur(110px);
+
+        opacity: 0.4;
+
+        will-change: transform;
+
+        animation:
+            blobFloat 18s ease-in-out infinite alternate;
+    }
+
+
+    .blob-one {
+        top: -200px;
+        left: -150px;
+
+        background: #06b6d4;
+
+        animation-duration: 18s;
+    }
+
+
+    .blob-two {
+        top: 20%;
+        right: -200px;
+
+        background: #7c3aed;
+
+        animation-duration: 22s;
+        animation-delay: -5s;
+    }
+
+
+    .blob-three {
+        bottom: -250px;
+        left: 30%;
+
+        background: #ec4899;
+
+        animation-duration: 25s;
+        animation-delay: -10s;
+    }
+
+
+    @keyframes blobFloat {
+
+        0% {
+            transform:
+                translate3d(0, 0, 0) scale(1) rotate(0deg);
+        }
+
+        25% {
+            transform:
+                translate3d(120px, 80px, 0) scale(1.15) rotate(45deg);
+        }
+
+        50% {
+            transform:
+                translate3d(-60px, 160px, 0) scale(1.3) rotate(90deg);
+        }
+
+        75% {
+            transform:
+                translate3d(100px, -80px, 0) scale(1.1) rotate(140deg);
+        }
+
+        100% {
+            transform:
+                translate3d(-100px, 40px, 0) scale(1.25) rotate(180deg);
+        }
+    }
+
+
+    /* =========================================
+       FLOATING PARTICLES
+    ========================================= */
+
+    .particle {
+        position: absolute;
+
+        width: 4px;
+        height: 4px;
+
+        border-radius: 50%;
+
+        background: white;
+
+        opacity: 0.5;
+
+        box-shadow:
+            0 0 10px rgba(255, 255, 255, 0.8);
+
+        animation:
+            particleFloat linear infinite;
+    }
+
+
+    @keyframes particleFloat {
+
+        from {
+            transform:
+                translateY(110vh) translateX(0) scale(0.5);
+
+            opacity: 0;
+        }
+
+        10% {
+            opacity: 0.6;
+        }
+
+        50% {
+            transform:
+                translateY(50vh) translateX(50px) scale(1);
+        }
+
+        90% {
+            opacity: 0.6;
+        }
+
+        to {
+            transform:
+                translateY(-20vh) translateX(-50px) scale(0.5);
+
+            opacity: 0;
+        }
+    }
+
+
+    /* =========================================
+       3D PARALLAX
+    ========================================= */
+
+    #parallax-container {
+        transform-style: preserve-3d;
+
+        will-change: transform;
+
+        transition:
+            transform 0.15s ease-out;
+    }
+
+
+    .hero-content,
+    .stat-card,
+    #auth-card {
+        transform-style: preserve-3d;
+    }
+
+
+    /* =========================================
+       AUTH CARD GLOW
+    ========================================= */
+
+    #auth-card {
+        position: relative;
+    }
+
+
+    #auth-card::before {
+        content: "";
+
+        position: absolute;
+
+        inset: -2px;
+
+        border-radius: inherit;
+
+        background:
+            linear-gradient(120deg,
+                transparent,
+                rgba(34, 211, 238, 0.4),
+                rgba(139, 92, 246, 0.4),
+                rgba(236, 72, 153, 0.3),
+                transparent);
+
+        background-size: 300% 300%;
+
+        animation: borderGlow 8s linear infinite;
+
+        opacity: 0.7;
+
+        z-index: -1;
+    }
+
+
+    @keyframes borderGlow {
+
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+
+    /* =========================================
+       HERO TEXT ANIMATION
+    ========================================= */
+
+    .hero-content h1 {
+        animation:
+            heroEntrance 1.2s ease-out;
+    }
+
+
+    @keyframes heroEntrance {
+
+        from {
+            opacity: 0;
+            transform:
+                translateY(50px) translateZ(70px);
+        }
+
+        to {
+            opacity: 1;
+            transform:
+                translateY(0) translateZ(70px);
+        }
+    }
+
+
+    /* =========================================
+       STATS FLOAT
+    ========================================= */
+
+    .stat-card {
+        animation:
+            cardFloat 5s ease-in-out infinite;
+    }
+
+
+    .stat-card:nth-child(2) {
+        animation-delay: 1s;
+    }
+
+
+    .stat-card:nth-child(3) {
+        animation-delay: 2s;
+    }
+
+
+    @keyframes cardFloat {
+
+        0%,
+        100% {
+            transform:
+                translateY(0) translateZ(50px);
+        }
+
+        50% {
+            transform:
+                translateY(-10px) translateZ(70px);
+        }
+    }
+
+
+    /* =========================================
+       MOBILE
+    ========================================= */
+
+    @media (max-width: 768px) {
+
+        #parallax-container {
+            transform: none !important;
+        }
+
+
+        .bg-blob {
+            width: 300px;
+            height: 300px;
+
+            filter: blur(70px);
+        }
+
+
+        .particle {
+            display: none;
+        }
+
+    }
+
+
+    /* =========================================
+       REDUCED MOTION
+    ========================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+
+    }
+

@@ -75,7 +75,6 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         $profile = $user->profile ?? new UserProfile(['user_id' => $user->id]);
-
         if ($request->hasFile('profile_picture')) {
             if ($profile->profile_picture && Storage::disk('public')->exists($profile->profile_picture)) {
                 Storage::disk('public')->delete($profile->profile_picture);
