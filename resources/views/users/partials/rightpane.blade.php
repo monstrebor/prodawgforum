@@ -1,6 +1,6 @@
 <style>
     /* =========================================
-       RIGHT SIDEBAR
+       RIGHT SIDEBAR - COMPACT
     ========================================= */
 
     .right-sidebar {
@@ -8,19 +8,21 @@
         top: 0;
         right: 0;
 
-        width: 390px;
+        width: 260px;
         height: 100vh;
 
         z-index: 9999;
 
-        padding: 16px;
+        padding: 10px;
 
         box-sizing: border-box;
 
         background:
-            linear-gradient(180deg,
+            linear-gradient(
+                180deg,
                 rgba(15, 23, 42, 0.98),
-                rgba(2, 6, 23, 0.99));
+                rgba(2, 6, 23, 0.99)
+            );
 
         border-left: 1px solid rgba(255, 255, 255, 0.1);
 
@@ -44,17 +46,17 @@
 
         position: absolute;
 
-        top: -100px;
-        right: -100px;
+        top: -80px;
+        right: -80px;
 
-        width: 250px;
-        height: 250px;
+        width: 180px;
+        height: 180px;
 
         background: rgba(6, 182, 212, 0.12);
 
         border-radius: 50%;
 
-        filter: blur(80px);
+        filter: blur(60px);
 
         pointer-events: none;
     }
@@ -79,7 +81,7 @@
     .right-sidebar li {
         width: 100%;
 
-        margin-bottom: 8px;
+        margin-bottom: 5px;
 
         list-style: none;
     }
@@ -94,18 +96,20 @@
 
         align-items: center;
 
-        gap: 12px;
+        gap: 9px;
 
-        padding: 18px 16px;
+        padding: 12px;
 
-        margin-bottom: 20px;
+        margin-bottom: 12px;
 
-        border-radius: 18px;
+        border-radius: 13px;
 
         background:
-            linear-gradient(135deg,
+            linear-gradient(
+                135deg,
                 rgba(6, 182, 212, 0.15),
-                rgba(124, 58, 237, 0.12));
+                rgba(124, 58, 237, 0.12)
+            );
 
         border:
             1px solid rgba(255, 255, 255, 0.1);
@@ -118,18 +122,18 @@
         align-items: center;
         justify-content: center;
 
-        min-width: 42px;
-        width: 42px;
-        height: 42px;
+        min-width: 34px;
+        width: 34px;
+        height: 34px;
 
-        border-radius: 14px;
+        border-radius: 10px;
 
         color: #67e8f9;
 
         background:
             rgba(6, 182, 212, 0.15);
 
-        font-size: 24px;
+        font-size: 20px;
     }
 
 
@@ -145,22 +149,22 @@
     .sidebar-header-text strong {
         color: white;
 
-        font-size: 16px;
+        font-size: 14px;
 
-        letter-spacing: 0.5px;
+        letter-spacing: 0.4px;
 
         white-space: nowrap;
     }
 
 
     .sidebar-header-text small {
-        margin-top: 3px;
+        margin-top: 2px;
 
         color: rgba(191, 219, 254, 0.55);
 
-        font-size: 11px;
+        font-size: 9px;
 
-        letter-spacing: 1px;
+        letter-spacing: 0.8px;
 
         white-space: nowrap;
     }
@@ -173,15 +177,15 @@
     .sidebar-label {
         display: block;
 
-        padding: 10px 16px;
+        padding: 7px 10px;
 
         color: rgba(148, 163, 184, 0.6);
 
-        font-size: 11px;
+        font-size: 9px;
 
         font-weight: bold;
 
-        letter-spacing: 1.5px;
+        letter-spacing: 1.2px;
     }
 
 
@@ -196,19 +200,19 @@
 
         align-items: center;
 
-        gap: 15px;
+        gap: 10px;
 
-        padding: 14px 16px;
+        padding: 9px 10px;
 
         box-sizing: border-box;
 
-        border-radius: 14px;
+        border-radius: 11px;
 
         text-decoration: none !important;
 
         color: #94a3b8 !important;
 
-        font-size: 15px;
+        font-size: 13px;
 
         font-weight: 500;
 
@@ -232,20 +236,20 @@
         align-items: center;
         justify-content: center;
 
-        min-width: 38px;
-        width: 38px;
-        height: 38px;
+        min-width: 30px;
+        width: 30px;
+        height: 30px;
 
         flex-shrink: 0;
 
-        border-radius: 12px;
+        border-radius: 9px;
 
         color: #67e8f9;
 
         background:
             rgba(6, 182, 212, 0.1);
 
-        font-size: 21px;
+        font-size: 17px;
     }
 
 
@@ -278,10 +282,12 @@
         color: white !important;
 
         background:
-            linear-gradient(135deg,
+            linear-gradient(
+                135deg,
                 rgba(6, 182, 212, 0.2),
                 rgba(37, 99, 235, 0.2),
-                rgba(124, 58, 237, 0.15));
+                rgba(124, 58, 237, 0.15)
+            );
 
         border:
             1px solid rgba(34, 211, 238, 0.25);
@@ -292,9 +298,11 @@
         color: white;
 
         background:
-            linear-gradient(135deg,
+            linear-gradient(
+                135deg,
                 #06b6d4,
-                #2563eb);
+                #2563eb
+            );
     }
 
 
@@ -305,7 +313,7 @@
     .sidebar-divider {
         height: 1px;
 
-        margin: 18px 8px;
+        margin: 10px 5px;
 
         background:
             rgba(255, 255, 255, 0.08);
@@ -317,9 +325,9 @@
     ========================================= */
 
     .main-content {
-        margin-right: 390px;
+        margin-right: 260px;
 
-        width: calc(100% - 390px);
+        width: calc(100% - 260px);
 
         min-height: 100vh;
 
@@ -332,7 +340,7 @@
     ========================================= */
 
     .right-sidebar::-webkit-scrollbar {
-        width: 5px;
+        width: 4px;
     }
 
 
@@ -345,50 +353,56 @@
 
 
     /* =========================================
-       LARGE TABLET
+       TABLET
     ========================================= */
 
     @media (max-width: 1200px) {
 
         .right-sidebar {
-            width: 320px;
+            width: 240px;
         }
 
         .main-content {
-            margin-right: 320px;
+            margin-right: 240px;
 
-            width: calc(100% - 320px);
+            width: calc(100% - 240px);
         }
-
     }
 
-
-    /* =========================================
-       TABLET
-    ========================================= */
 
     @media (max-width: 992px) {
 
         .right-sidebar {
-            width: 280px;
+            width: 220px;
+
+            padding: 8px;
         }
 
         .main-content {
-            margin-right: 280px;
+            margin-right: 220px;
 
-            width: calc(100% - 280px);
+            width: calc(100% - 220px);
         }
 
-        .right-sidebar {
-            padding: 12px;
+        .right-sidebar .nav-link {
+            gap: 8px;
+
+            padding: 8px;
         }
 
+        .right-sidebar .nav-link i {
+            min-width: 28px;
+
+            width: 28px;
+            height: 28px;
+
+            font-size: 16px;
+        }
     }
 
 
     /* =========================================
        MOBILE
-       SIDEBAR BECOMES BOTTOM PANEL
     ========================================= */
 
     @media (max-width: 768px) {
@@ -405,7 +419,7 @@
             right: auto;
             top: auto;
 
-            padding: 14px;
+            padding: 10px;
 
             border-left: none;
 
@@ -437,7 +451,7 @@
             grid-template-columns:
                 repeat(2, minmax(0, 1fr));
 
-            gap: 8px;
+            gap: 5px;
         }
 
 
@@ -446,45 +460,38 @@
         }
 
 
-        /* Header takes full width */
-
         .right-sidebar li:first-child {
             grid-column: 1 / -1;
         }
 
 
-        /* Labels take full width */
-
         .sidebar-label {
-            padding: 8px;
+            padding: 6px;
         }
 
 
         .right-sidebar .nav-link {
-            padding: 12px;
+            padding: 8px;
 
-            gap: 10px;
+            gap: 7px;
 
-            font-size: 14px;
+            font-size: 12px;
         }
 
 
         .right-sidebar .nav-link i {
-            min-width: 36px;
+            min-width: 28px;
 
-            width: 36px;
-            height: 36px;
+            width: 28px;
+            height: 28px;
 
-            font-size: 19px;
+            font-size: 16px;
         }
 
-
-        /* Divider */
 
         .sidebar-divider {
-            margin: 5px 0;
+            margin: 4px 0;
         }
-
     }
 
 
@@ -495,7 +502,7 @@
     @media (max-width: 480px) {
 
         .right-sidebar {
-            padding: 10px;
+            padding: 8px;
         }
 
 
@@ -505,14 +512,13 @@
 
 
         .right-sidebar .nav-link {
-            padding: 13px 14px;
+            padding: 9px 10px;
         }
 
 
         .sidebar-header {
-            padding: 14px;
+            padding: 10px;
         }
-
     }
 </style>
 
@@ -523,99 +529,139 @@
 
         {{-- HEADER --}}
         <li>
+
             <div class="sidebar-header">
 
                 <i class="material-icons">hub</i>
 
                 <div class="sidebar-header-text">
+
                     <strong>PRO DAWG</strong>
 
                     <small>SOCIAL WORLD</small>
+
                 </div>
 
             </div>
+
         </li>
 
 
         {{-- NAVIGATION LABEL --}}
         <li style="grid-column: 1 / -1;">
+
             <span class="sidebar-label">
                 NAVIGATION
             </span>
+
         </li>
 
 
         {{-- DASHBOARD --}}
         <li>
+
             <a href="#" class="nav-link active">
 
-                <i class="material-icons">dashboard</i>
+                <i class="material-icons">
+                    dashboard
+                </i>
 
-                <span>Dashboard</span>
+                <span>
+                    Dashboard
+                </span>
 
             </a>
+
         </li>
 
 
         {{-- CHATS --}}
         <li>
+
             <a href="#" class="nav-link">
 
-                <i class="material-icons">chat</i>
+                <i class="material-icons">
+                    chat
+                </i>
 
-                <span>Chats</span>
+                <span>
+                    Chats
+                </span>
 
             </a>
+
         </li>
 
 
         {{-- COMMUNITY --}}
         <li>
+
             <a href="#" class="nav-link">
 
-                <i class="material-icons">groups</i>
+                <i class="material-icons">
+                    groups
+                </i>
 
-                <span>Community</span>
+                <span>
+                    Community
+                </span>
 
             </a>
+
         </li>
 
 
         {{-- DIVIDER --}}
         <li style="grid-column: 1 / -1;">
+
             <div class="sidebar-divider"></div>
+
         </li>
 
 
         {{-- ACCOUNT LABEL --}}
         <li style="grid-column: 1 / -1;">
+
             <span class="sidebar-label">
                 YOUR ACCOUNT
             </span>
+
         </li>
 
 
         {{-- PROFILE --}}
         <li>
+
             <a href="#" class="nav-link">
 
-                <i class="material-icons">person</i>
+                <i class="material-icons">
+                    person
+                </i>
 
-                <span>Profile</span>
+                <span>
+                    Profile
+                </span>
 
             </a>
+
         </li>
 
 
         {{-- SETTINGS --}}
         <li>
+
             <a href="#" class="nav-link">
 
-                <i class="material-icons">settings</i>
+                <i class="material-icons">
+                    settings
+                </i>
 
-                <span>Settings</span>
+                <span>
+                    Settings
+                </span>
 
             </a>
+
         </li>
 
     </ul>

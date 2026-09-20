@@ -1,0 +1,4 @@
+Mail::raw('This is a test email.', function ($message) {
+    $message->to('crobertjanssen@gmail.com');
+    $message->subject('Laravel SMTP Test');
+});

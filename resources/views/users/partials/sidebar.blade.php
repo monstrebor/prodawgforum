@@ -1,6 +1,6 @@
 <style>
     /* =========================================
-       SIDEBAR - PRO DAWG DESIGN
+       SIDEBAR - FIXED / ALWAYS OPEN
     ========================================= */
 
     .sidebar {
@@ -8,7 +8,7 @@
         top: 0;
         left: 0;
 
-        width: 82px;
+        width: 260px;
         height: 100vh;
 
         padding: 16px 10px;
@@ -16,23 +16,22 @@
         z-index: 9999;
 
         box-sizing: border-box;
-        overflow: hidden;
+
+        overflow-y: auto;
+        overflow-x: hidden;
 
         background:
-            linear-gradient(180deg,
+            linear-gradient(
+                180deg,
                 rgba(15, 23, 42, 0.98),
-                rgba(2, 6, 23, 0.99));
+                rgba(2, 6, 23, 0.99)
+            );
 
-        border-right:
-            1px solid rgba(255, 255, 255, 0.08);
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
 
-        box-shadow:
-            8px 0 35px rgba(0, 0, 0, 0.3);
+        box-shadow: 8px 0 35px rgba(0, 0, 0, 0.3);
 
         backdrop-filter: blur(20px);
-
-        transition:
-            width 0.35s ease;
     }
 
 
@@ -53,21 +52,11 @@
 
         border-radius: 50%;
 
-        background:
-            rgba(6, 182, 212, 0.12);
+        background: rgba(6, 182, 212, 0.12);
 
         filter: blur(80px);
 
         pointer-events: none;
-    }
-
-
-    /* =========================================
-       EXPAND ON HOVER
-    ========================================= */
-
-    .sidebar:hover {
-        width: 280px;
     }
 
 
@@ -94,22 +83,23 @@
         white-space: nowrap;
 
         background:
-            linear-gradient(135deg,
+            linear-gradient(
+                135deg,
                 rgba(6, 182, 212, 0.12),
-                rgba(124, 58, 237, 0.08));
+                rgba(124, 58, 237, 0.08)
+            );
 
-        border:
-            1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
 
     .sidebar-header i {
         display: flex;
-
         align-items: center;
         justify-content: center;
 
-        min-width: 42px;
+        flex-shrink: 0;
+
         width: 42px;
         height: 42px;
 
@@ -119,42 +109,20 @@
 
         font-size: 23px;
 
-        background:
-            rgba(6, 182, 212, 0.15);
-
-        box-shadow:
-            0 0 20px rgba(6, 182, 212, 0.1);
+        background: rgba(6, 182, 212, 0.15);
     }
 
 
-    /* =========================================
-       HEADER TEXT
-    ========================================= */
-
     .sidebar-header span {
-        opacity: 0;
-
-        transform:
-            translateX(-12px);
-
-        transition:
-            opacity 0.25s ease,
-            transform 0.25s ease;
+        display: block;
 
         color: white;
 
         font-size: 14px;
+
         font-weight: bold;
 
         letter-spacing: 2px;
-    }
-
-
-    .sidebar:hover .sidebar-header span {
-        opacity: 1;
-
-        transform:
-            translateX(0);
     }
 
 
@@ -195,13 +163,13 @@
         gap: 16px;
 
         width: 100%;
-        height: 56px;
+        height: 52px;
 
         padding: 0 14px;
 
         box-sizing: border-box;
 
-        border-radius: 14px;
+        border-radius: 12px;
 
         color: #94a3b8 !important;
 
@@ -211,21 +179,14 @@
 
         overflow: hidden;
 
-        background:
-            rgba(255, 255, 255, 0.02);
+        background: rgba(255, 255, 255, 0.02);
 
-        border:
-            1px solid transparent;
-
-        transition:
-            background 0.25s ease,
-            color 0.25s ease,
-            border 0.25s ease;
+        border: 1px solid transparent;
     }
 
 
     /* =========================================
-       ICON CONTAINER
+       ICON
     ========================================= */
 
     .sidebar-link i {
@@ -234,7 +195,8 @@
         align-items: center;
         justify-content: center;
 
-        min-width: 42px;
+        flex-shrink: 0;
+
         width: 42px;
         height: 42px;
 
@@ -244,62 +206,22 @@
 
         color: #67e8f9;
 
-        background:
-            rgba(6, 182, 212, 0.08);
-
-        transition:
-            background 0.25s ease,
-            color 0.25s ease;
+        background: rgba(6, 182, 212, 0.08);
     }
 
 
     /* =========================================
-       BUTTON TEXT
+       TEXT - ALWAYS VISIBLE
     ========================================= */
 
     .sidebar-link span {
-        opacity: 0;
+        display: block;
 
-        transform:
-            translateX(-15px);
-
-        transition:
-            opacity 0.25s ease,
-            transform 0.25s ease;
-
-        pointer-events: none;
+        color: inherit;
 
         font-size: 15px;
+
         font-weight: 500;
-    }
-
-
-    .sidebar:hover .sidebar-link span {
-        opacity: 1;
-
-        transform:
-            translateX(0);
-    }
-
-
-    /* =========================================
-       NORMAL LINK HOVER
-    ========================================= */
-
-    .sidebar-link:hover {
-        color: white !important;
-
-        background:
-            rgba(255, 255, 255, 0.06);
-
-        border:
-            1px solid rgba(6, 182, 212, 0.15);
-    }
-
-
-    .sidebar-link:hover i {
-        background:
-            rgba(6, 182, 212, 0.18);
     }
 
 
@@ -311,13 +233,14 @@
         color: white !important;
 
         background:
-            linear-gradient(135deg,
+            linear-gradient(
+                135deg,
                 rgba(6, 182, 212, 0.3),
                 rgba(37, 99, 235, 0.3),
-                rgba(124, 58, 237, 0.25));
+                rgba(124, 58, 237, 0.25)
+            );
 
-        border:
-            1px solid rgba(34, 211, 238, 0.3);
+        border: 1px solid rgba(34, 211, 238, 0.3);
 
         box-shadow:
             0 8px 25px rgba(6, 182, 212, 0.12);
@@ -328,9 +251,11 @@
         color: white;
 
         background:
-            linear-gradient(135deg,
+            linear-gradient(
+                135deg,
                 #06b6d4,
-                #2563eb);
+                #2563eb
+            );
 
         box-shadow:
             0 5px 18px rgba(6, 182, 212, 0.3);
@@ -347,10 +272,12 @@
         margin: 16px 8px !important;
 
         background:
-            linear-gradient(90deg,
+            linear-gradient(
+                90deg,
                 transparent,
                 rgba(255, 255, 255, 0.15),
-                transparent);
+                transparent
+            );
     }
 
 
@@ -373,16 +300,15 @@
         gap: 16px;
 
         width: 100%;
-        height: 56px;
+        height: 52px;
 
         padding: 0 14px;
 
         border: none;
 
-        border-radius: 14px;
+        border-radius: 12px;
 
-        background:
-            rgba(239, 68, 68, 0.03);
+        background: rgba(239, 68, 68, 0.03);
 
         color: #f87171;
 
@@ -393,10 +319,6 @@
         cursor: pointer;
 
         box-sizing: border-box;
-
-        transition:
-            background 0.25s ease,
-            color 0.25s ease;
     }
 
 
@@ -406,7 +328,8 @@
         align-items: center;
         justify-content: center;
 
-        min-width: 42px;
+        flex-shrink: 0;
+
         width: 42px;
         height: 42px;
 
@@ -416,39 +339,18 @@
 
         color: #f87171;
 
-        background:
-            rgba(239, 68, 68, 0.1);
+        background: rgba(239, 68, 68, 0.1);
     }
 
 
     .sidebar-logout span {
-        opacity: 0;
+        display: block;
 
-        transform:
-            translateX(-15px);
-
-        transition:
-            opacity 0.25s ease,
-            transform 0.25s ease;
+        color: inherit;
 
         font-size: 15px;
+
         font-weight: 500;
-    }
-
-
-    .sidebar:hover .sidebar-logout span {
-        opacity: 1;
-
-        transform:
-            translateX(0);
-    }
-
-
-    .sidebar-logout:hover {
-        background:
-            rgba(239, 68, 68, 0.12);
-
-        color: #fca5a5;
     }
 
 
@@ -457,26 +359,13 @@
     ========================================= */
 
     .main-content {
-        margin-left: 82px;
+        margin-left: 260px;
 
         min-height: 100vh;
 
         padding: 25px;
 
         box-sizing: border-box;
-
-        transition:
-            margin-left 0.35s ease;
-    }
-
-
-    /* IMPORTANT:
-       Keep content positioned correctly when
-       sidebar expands.
-    */
-
-    .sidebar:hover~.main-content {
-        margin-left: 280px;
     }
 
 
@@ -487,26 +376,14 @@
     @media (max-width: 768px) {
 
         .sidebar {
-            width: 72px;
+            width: 240px;
         }
-
-
-        .sidebar:hover {
-            width: 250px;
-        }
-
 
         .main-content {
-            margin-left: 72px;
+            margin-left: 240px;
 
             padding: 15px;
         }
-
-
-        .sidebar:hover~.main-content {
-            margin-left: 72px;
-        }
-
     }
 </style>
 
@@ -531,7 +408,6 @@
 
         {{-- DASHBOARD --}}
         <li>
-
             <a href="#" class="sidebar-link active">
 
                 <i class="material-icons">
@@ -543,13 +419,11 @@
                 </span>
 
             </a>
-
         </li>
 
 
         {{-- USERS --}}
         <li>
-
             <a href="#" class="sidebar-link">
 
                 <i class="material-icons">
@@ -561,13 +435,11 @@
                 </span>
 
             </a>
-
         </li>
 
 
         {{-- PROFILE --}}
         <li>
-
             <a href="#" class="sidebar-link">
 
                 <i class="material-icons">
@@ -579,13 +451,11 @@
                 </span>
 
             </a>
-
         </li>
 
 
         {{-- SETTINGS --}}
         <li>
-
             <a href="#" class="sidebar-link">
 
                 <i class="material-icons">
@@ -597,20 +467,23 @@
                 </span>
 
             </a>
-
         </li>
 
+
+        {{-- CLASH OF CLANS --}}
         <li>
             <a href="{{ route('user.clash-of-clan') }}" class="sidebar-link">
+
                 <i class="material-icons">
                     sports_esports
                 </i>
+
                 <span>
                     Clash of Clans
                 </span>
+
             </a>
         </li>
-
 
 
         {{-- DIVIDER --}}

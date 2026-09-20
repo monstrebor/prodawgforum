@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\users\{PostController, FriendshipController, ReactionController, CommentController, ClashOfClanController};
+use App\Http\Controllers\users\{PostController, FriendshipController, ReactionController, CommentController, ClashOfClanController, ChatController};
 use App\Http\Controllers\admin\{LogController, SettingsController};
 use App\Http\Controllers\users\ProfileController;
 use Illuminate\Support\Facades\{Auth, Route, Artisan};
@@ -68,7 +68,11 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
     Route::put('/profile/intro', [ProfileController::class, 'updateIntro'])->name('user.profile-intro-update');
     Route::get('/user/profile/{id?}', [ProfileController::class, 'show'])->name('user.profile-view');
 
+    //Clash of Clan API
     Route::get('/clash-of-clan-index', [ClashOfClanController::class, 'index'])->name('user.clash-of-clan');
+
+    //Chat
+    Route::get('/chat-index', [ChatController::class, 'index'])->name('user.chat');
 });
 
 Route::post('/logout', [LogController::class, 'logout'])->name('logout');

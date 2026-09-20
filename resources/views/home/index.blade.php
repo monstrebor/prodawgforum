@@ -165,15 +165,6 @@ $showRegister = $errors->has('name') || old('auth_form') === 'register';
                                     class="h-300 w-300 object-contain">
                             </div>
 
-
-                            <h2 class="text-3xl font-bold">
-                                Welcome Back
-                            </h2>
-
-                            <p class="mt-2 text-blue-100/70">
-                                Sign in and continue the conversation.
-                            </p>
-
                         </div>
 
                         {{-- Email --}}

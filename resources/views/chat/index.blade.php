@@ -12,20 +12,20 @@
 @section('content')
 
 <style>
-:root {
-    --navbar-height: 70px;
-    --left-sidebar-width: 220px;
-    --right-sidebar-width: 300px;
+    :root {
+        --navbar-height: 70px;
+        --left-sidebar-width: 220px;
+        --right-sidebar-width: 360px;
 
-    --primary: #06b6d4;
-    --primary-blue: #2563eb;
-    --purple: #7c3aed;
+        --primary: #06b6d4;
+        --primary-blue: #2563eb;
+        --purple: #7c3aed;
 
-    --dark: #020617;
-    --dark-secondary: #0f172a;
+        --dark: #020617;
+        --dark-secondary: #0f172a;
 
-    --border: rgba(255, 255, 255, 0.08);
-}
+        --border: rgba(255, 255, 255, 0.08);
+    }
 
     * {
         box-sizing: border-box;
@@ -168,24 +168,52 @@
 /* =========================================
    MAIN CONTENT - WIDER
 ========================================= */
+
 .main-content {
     position: relative;
 
-    min-height: calc(100vh - var(--navbar-height));
+    min-height:
+        calc(100vh - var(--navbar-height));
 
-    margin-left: var(--left-sidebar-width);
-    margin-right: var(--right-sidebar-width);
+    /*
+       No left sidebar space
+       Main content starts from the left
+    */
+    margin-left: 0;
 
-    padding: 24px 20px 40px;
+    /*
+       Keep space for right sidebar
+    */
+    margin-right:
+        var(--right-sidebar-width);
+
+    /*
+       Smaller padding = more usable space
+    */
+    padding:
+        24px 30px 40px;
 
     width: auto;
 
     z-index: 1;
+
+    transition:
+        margin 0.35s ease,
+        padding 0.35s ease;
 }
+
+
+/* =========================================
+   WIDER POST CONTENT
+========================================= */
 
 .main-content > * {
     width: 100%;
-    max-width: 1800px;
+
+    /*
+       Increased from 850px
+    */
+    max-width: 1200px;
 
     margin-left: auto;
     margin-right: auto;
@@ -485,36 +513,30 @@
 
 </style>
 
-
 <div class="app-layout">
 
     {{-- NAVBAR --}}
     @include('users.partials.navbar')
-
 
     {{-- LEFT SIDEBAR --}}
     <aside class="left-sidebar">
         @include('users.partials.sidebar')
     </aside>
 
-
     {{-- MAIN CONTENT --}}
     <main class="main-content" id="mainContent">
-        @include('users.post.index')
+        @include('chat.main')
     </main>
-
 
     {{-- RIGHT SIDEBAR --}}
     <aside class="right-sidebar" id="rightSidebar">
         @include('users.partials.rightpane')
     </aside>
 
-
     {{-- MOBILE OVERLAY --}}
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 </div>
-
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
