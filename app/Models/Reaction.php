@@ -10,14 +10,14 @@ class Reaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'post_image_id',
+        'post_id',
         'user_id',
         'type',
     ];
 
     public function image()
     {
-        return $this->belongsTo(PostImage::class, 'post_image_id');
+        return $this->belongsTo(PostImage::class, 'post_id');
     }
 
     public function user()

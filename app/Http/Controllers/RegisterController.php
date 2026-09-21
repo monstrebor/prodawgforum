@@ -24,6 +24,9 @@ class RegisterController extends Controller
             'status' => 'active',
         ]);
 
+        // Initialize RPG stats
+        $this->initializePlayerStats($user);
+
         $role = $request->user_type === 'admin' ? 'admin' : 'user';
         $user->assignRole($role);
 
@@ -50,5 +53,12 @@ class RegisterController extends Controller
         $user->update($validated);
 
         return redirect()->back()->with('success', 'User updated successfully!');
+    }
+
+    private function initializePlayerStats(User $user)
+    {
+        $user->update([
+            'life_points' => 10,
+        ]);
     }
 }

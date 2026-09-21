@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\users\{PostController, FriendshipController, ReactionController, CommentController, ClashOfClanController, ChatController};
-use App\Http\Controllers\admin\{LogController, SettingsController};
+use App\Http\Controllers\admin\{LogController, SettingsController, UserController};
 use App\Http\Controllers\users\ProfileController;
 use Illuminate\Support\Facades\{Auth, Route, Artisan};
 use App\Models\User;
@@ -30,10 +30,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::view('/settings', 'settings.index')->name('admin.settings');
     Route::view('/change-password', 'settings.change-password')->name('admin.password');
 
-    Route::get('/add-user', function () {
-        $users = User::all();
-        return view('admin.users.index', compact('users'));
-    })->name('add-user');
+    // Manage Users
+    Route::get('/add-user', [UserController::class, 'index'])->name('add-user');
+
     Route::post('/store-user', [RegisterController::class, 'registerUser'])->name('store-user');
     Route::post('/update-user', [RegisterController::class, 'updateUser'])->name('admin.update-user');
 });

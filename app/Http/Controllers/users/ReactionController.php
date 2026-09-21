@@ -11,24 +11,36 @@ class ReactionController extends Controller
 {
     public function store(Request $request)
     {
+
+dd($request);
+
         $request->validate([
-            'post_id' => 'required|integer',
+            'post_id' => 'required|integer|exists:post_images,id',
             'type' => 'required|string',
         ]);
 
         $userId = Auth::id();
 
-        $existing = Reaction::where('post_image_id', $request->post_id)
+        $postImage = PostImage::findOrFail($request->post_id);
+
+        $existing = Reaction::where('post_image_id', $postImage->id)
             ->where('user_id', $userId)
             ->first();
 
-        if ($existing && $existing->type === $request->type) {
-            $existing->delete();
+        if ($existing) {
+            if ($existing->type === $request->type) {
+                $existing->delete();
+            } else {
+                $existing->update([
+                    'type' => $request->type,
+                ]);
+            }
         } else {
-            Reaction::updateOrCreate(
-                ['post_image_id' => $request->post_id, 'user_id' => $userId],
-                ['type' => $request->type]
-            );
+            Reaction::create([
+                'post_image_id' => $postImage->id,
+                'user_id' => $userId,
+                'type' => $request->type,
+            ]);
         }
 
         return back();

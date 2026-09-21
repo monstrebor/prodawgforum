@@ -1,0 +1,41 @@
+Phase 1
+
+Life points
++1 give
+-2 attack
+Frozen at 0
+Revival
+Activity/XP
+Levels
+
+Phase 2
+
+Energy
+Gold
+Daily quests
+Achievements
+Titles
+Leaderboards
+
+Phase 3
+
+Classes
+Skills
+Equipment
+Guilds
+PvP
+Events
+Bosses/world events
+
+Phase 4
+
+Full RPG world/map
+NPCs
+Dungeons
+Parties
+Guild wars
+MMORPG-style progression
+
+The key design decision I'd make right now is to keep
+Life Points, XP, and Gold completely separate. Otherwise your point
+system will become confusing and balancing it later will be painful.
