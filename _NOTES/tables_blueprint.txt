@@ -1,0 +1,502 @@
+| Table                 | Purpose                                 |
+| --------------------- | --------------------------------------- |
+| `users`               | Existing login/account information      |
+| `player_stats`        | Life, XP, level, energy, gold, etc.     |
+| `point_transactions`  | Records every `+1` and `-2` action      |
+| `player_actions`      | Cooldowns, daily limits, action history |
+| `player_quests`       | Player's quest progress                 |
+| `quests`              | Available quests                        |
+| `player_inventory`    | Items owned by a player                 |
+| `items`               | Item definitions                        |
+| `player_achievements` | Achievements unlocked by players        |
+| `achievements`        | Achievement definitions                 |
+| `player_skills`       | Skills learned by players               |
+| `skills`              | Skill definitions                       |
+| `guilds`              | Player-created guilds                   |
+| `guild_members`       | Users belonging to guilds               |
+| `player_classes`      | RPG classes                             |
+| `notifications`       | Game/social notifications               |
+
+
+
+2. users
+
+Keep your existing users table primarily for authentication.
+
+For example:
+
+users
+--------------------------------
+id
+name
+email
+password
+is_new
+status
+created_at
+updated_at
+
+Your current:
+
+'status' => 'active',
+
+can continue to represent the account's general status.
+
+However, I would eventually avoid using status alone to determine whether a player is frozen.
+
+3. player_stats ⭐
+
+This becomes the heart of the RPG system.
+
+player_stats
+--------------------------------
+id
+user_id
+life_points
+max_life_points
+xp
+level
+energy
+max_energy
+gold
+created_at
+updated_at
+
+A newly registered player might receive:
+
+❤️ Life       10 / 10
+⭐ Level      1
+✨ XP         0
+⚡ Energy     10 / 10
+🪙 Gold       100
+
+For example:
+
+id: 1
+user_id: 25
+life_points: 10
+max_life_points: 10
+xp: 0
+level: 1
+energy: 10
+max_energy: 10
+gold: 100
+
+This is much better than putting:
+
+life_points
+xp
+level
+energy
+gold
+
+directly inside users.
+
+4. point_transactions ⭐⭐⭐
+
+This is very important for your particular idea.
+
+Every time someone gives or removes Life Points, record it.
+
+point_transactions
+--------------------------------
+id
+from_user_id
+to_user_id
+amount
+type
+reason
+created_at
+
+Example:
+
+from_user_id: 5
+to_user_id: 10
+amount: 1
+type: give
+reason: helpful
+
+Another:
+
+from_user_id: 7
+to_user_id: 10
+amount: -2
+type: attack
+reason: penalty
+
+So if Alice attacks Bob:
+
+Alice → Bob
+-2 ❤️
+
+The transaction gets saved.
+
+This gives you a complete history.
+
+5. Why transactions are important
+
+Suppose Bob suddenly has:
+
+❤️ 0
+
+You need to know:
+
+Who caused Bob to lose his points?
+
+You can inspect:
+
+point_transactions
+
+and see:
+
+Alice → Bob    -2
+John → Bob     -2
+Mike → Bob     -2
+Sarah → Bob    -2
+
+You can also display something like:
+
+Recent Activity
+
+⚔️ Alice attacked you       -2 ❤️
+❤️ Sarah revived you        +1 ❤️
+⚔️ John attacked you        -2 ❤️
+
+This will make the game feel much more alive.
+
+6. player_actions
+
+This handles restrictions on actions.
+
+For example, you don't want someone doing this:
+
+Attack Bob
+Attack Bob
+Attack Bob
+Attack Bob
+Attack Bob
+...
+
+You could have:
+
+player_actions
+--------------------------------
+id
+user_id
+target_user_id
+action_type
+amount
+created_at
+
+For example:
+
+user_id: 5
+target_user_id: 10
+action_type: attack
+amount: -2
+created_at: ...
+
+Then your application can enforce rules such as:
+
+Attack:
+1 time per target every 24 hours
+
+or:
+
+Give:
+5 times per day
+
+
+7. quests
+
+This is where your social media starts becoming an RPG.
+
+quests
+--------------------------------
+id
+name
+description
+type
+xp_reward
+gold_reward
+life_reward
+energy_cost
+status
+created_at
+updated_at
+
+Example:
+
+Quest:
+"Make Your First Post"
+
+Reward:
++50 XP
++20 Gold
+
+Another:
+
+Quest:
+"Help Another Player"
+
+Reward:
++25 XP
++10 Gold
+
+8. player_quests
+
+You need a separate table to track each player's progress.
+
+player_quests
+--------------------------------
+id
+user_id
+quest_id
+progress
+target
+status
+started_at
+completed_at
+
+Example:
+
+Robert
+Quest: Make 5 Posts
+
+Progress: 3 / 5
+Status: in_progress
+
+Once they reach 5:
+
+Progress: 5 / 5
+Status: completed
+
+Then give XP/gold.
+
+9. items
+
+Eventually players can collect items.
+
+items
+--------------------------------
+id
+name
+description
+type
+rarity
+value
+effect_type
+effect_value
+created_at
+updated_at
+
+Example:
+
+Health Potion
+type: consumable
+rarity: common
+effect_type: life
+effect_value: 2
+
+Or:
+
+Sword
+type: weapon
+rarity: rare
+effect_type: attack
+effect_value: 5
+10. player_inventory
+
+Players need somewhere to store those items.
+
+player_inventory
+--------------------------------
+id
+user_id
+item_id
+quantity
+created_at
+updated_at
+
+Example:
+
+Robert
+-------------------------
+Health Potion x5
+Iron Sword    x1
+Magic Ring    x1
+11. achievements
+
+This gives players long-term goals.
+
+achievements
+--------------------------------
+id
+name
+description
+icon
+requirement_type
+requirement_value
+reward_xp
+reward_gold
+
+Examples:
+
+🏆 First Blood
+Perform your first attack.
+
+🏆 Savior
+Revive 10 players.
+
+🏆 Survivor
+Reach 1 Life Point and survive.
+
+🏆 Guardian
+Give Life Points to 50 different players.
+
+🏆 Veteran
+Reach Level 10.
+
+Then:
+
+player_achievements
+--------------------------------
+id
+user_id
+achievement_id
+unlocked_at
+12. Classes
+
+This is where the MMORPG aspect can eventually become much deeper.
+
+Create:
+
+player_classes
+--------------------------------
+id
+name
+description
+base_attack
+base_defense
+base_energy
+base_life
+
+Example:
+
+Warrior
+Mage
+Rogue
+Healer
+Guardian
+
+Then:
+
+player_stats
+
+can have:
+
+class_id
+
+So:
+
+Robert
+Level 12
+Warrior
+❤️ 8/10
+⚔️ 15 Attack
+🛡️ 12 Defense
+13. Skills
+
+Later:
+
+skills
+--------------------------------
+id
+name
+description
+mana_cost
+energy_cost
+cooldown
+effect_type
+effect_value
+
+And:
+
+player_skills
+--------------------------------
+id
+user_id
+skill_id
+level
+unlocked_at
+
+Example:
+
+Warrior
+
+⚔️ Power Strike
+❤️ Defensive Stance
+🛡️ Shield Wall
+14. Guilds
+
+Since your website is social, guilds could become extremely important.
+
+guilds
+--------------------------------
+id
+name
+description
+owner_id
+level
+experience
+created_at
+
+And:
+
+guild_members
+--------------------------------
+id
+guild_id
+user_id
+role
+joined_at
+
+Then users can create communities:
+
+🔥 DRAGON SLAYERS
+Level 12 Guild
+
+Members: 87
+
+Guild XP: 125,450
+
+Eventually:
+
+Guild vs Guild
+
+could become part of the game.
+
+15. Notifications
+
+Your existing social network probably already needs notifications, but RPG actions make them even more useful.
+
+notifications
+--------------------------------
+id
+user_id
+sender_id
+type
+message
+is_read
+created_at
+
+Examples:
+
+❤️ Sarah gave you +1 Life Point.
+
+⚔️ John attacked you for -2 Life Points.
+
+❄️ Your Life Points reached 0.
+Your account is frozen.
+
+❤️ Mike revived you!
