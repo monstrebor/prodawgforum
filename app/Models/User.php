@@ -69,5 +69,66 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserProfile::class);
     }
+
+    // RPG PART
+    public function playerStats()
+    {
+        return $this->hasOne(PlayerStats::class, 'userid');
+    }
+
+    public function receivedPointTransactions()
+    {
+        return $this->hasMany(
+            PointTransaction::class,
+            'to_user_id'
+        );
+    }
+    public function sentPointTransactions()
+    {
+        return $this->hasMany(
+            PointTransaction::class,
+            'from_user_id'
+        );
+    }
+
+    public function playerQuests()
+    {
+        return $this->hasMany(PlayerQuest::class);
+    }
+
+    public function inventory()
+    {
+        return $this->hasMany(PlayerInventory::class);
+    }
+
+    public function achievements()
+    {
+        return $this->hasMany(PlayerAchievement::class);
+    }
+
+    public function playerSkills()
+    {
+        return $this->hasMany(PlayerSkill::class);
+    }
+
+    public function guildMemberships()
+    {
+        return $this->hasMany(GuildMember::class);
+    }
+
+    public function ownedGuilds()
+    {
+        return $this->hasMany(Guild::class, 'owner_id');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_id');
+    }
+
+    public function sentNotifications()
+    {
+        return $this->hasMany(Notification::class, 'sender_id');
+    }
 }
 

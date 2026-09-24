@@ -1,0 +1,27 @@
+USERS
+ │
+ ├── PLAYERSTATS
+ │     │
+ │     └── PLAYER_CLASSES
+ │            │
+ │            └── CLASS_SKILLS
+ │                    │
+ │                    └── SKILLS
+ │
+ ├── PLAYER_SKILLS
+ ├── PLAYER_QUESTS
+ ├── PLAYER_INVENTORY
+ ├── PLAYER_ACHIEVEMENTS
+ ├── PLAYER_ACTIONS
+ │
+ ├── POINT_TRANSACTIONS
+ │
+ ├── GUILD_MEMBERS
+ │       │
+ │       └── GUILDS
+ │
+ ├── NOTIFICATIONS
+ │       │
+ │       └── sender_id → USERS
+ │
+ └── ...

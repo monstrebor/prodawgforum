@@ -1,0 +1,35 @@
+users
+│
+├── playerstats
+│   ├── ❤️ Life
+│   ├── ⭐ XP
+│   ├── ⭐ Level
+│   ├── ⚡ Energy
+│   └── 🪙 Gold
+│
+├── player_actions
+│   └── Action history / cooldowns
+│
+├── point_transactions
+│   └── Life Point history
+│
+├── player_quests
+│   └── Quest progress
+│
+├── player_inventory
+│   └── Items owned
+│
+└── player_achievements
+    └── Achievements unlocked
+
+
+quests
+└── Quest definitions
+
+
+items
+└── Item definitions
+
+
+achievements
+└── Achievement definitions

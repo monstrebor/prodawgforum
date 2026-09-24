@@ -37,6 +37,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::post('/update-user', [RegisterController::class, 'updateUser'])->name('admin.update-user');
 
     // Manage Life Points
+    
 });
 
 Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {

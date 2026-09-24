@@ -1,0 +1,22 @@
+users
+│
+│  Account / authentication
+│
+├── playerstats
+│     │
+│     ├── ❤️ lifepoints
+│     ├── ❤️ maxlifepoints
+│     ├── ⭐ xp
+│     ├── ⭐ level
+│     ├── ⚡ energy
+│     ├── ⚡ maxenergy
+│     └── 🪙 gold
+│
+└── point_transactions
+      │
+      ├── Who performed it
+      ├── Who was affected
+      ├── Amount
+      ├── Type
+      ├── Reason
+      └── Timestamp

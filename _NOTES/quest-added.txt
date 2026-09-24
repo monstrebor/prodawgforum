@@ -1,0 +1,36 @@
+                    USERS
+                      │
+          ┌───────────┴───────────┐
+          │                       │
+     PLAYERSTATS               QUESTS
+          │                       │
+   Current RPG state        Quest definitions
+          │                       │
+          │                  ┌────┴────┐
+          │                  │         │
+          │             XP reward   Gold reward
+          │
+          │
+    PLAYER_ACTIONS
+          │
+    Action restrictions
+    / cooldowns
+          │
+          ▼
+ POINT_TRANSACTIONS
+          │
+    Life Point history
+
+
+QUESTS
+   │
+   ▼
+PLAYER_QUESTS
+   │
+   ├── user_id
+   ├── quest_id
+   ├── progress
+   ├── target
+   ├── status
+   ├── started_at
+   └── completed_at

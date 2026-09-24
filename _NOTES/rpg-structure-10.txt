@@ -1,0 +1,18 @@
+items
+│
+│  What items exist in the game?
+│
+├── Health Potion
+├── Iron Sword
+├── Magic Ring
+└── Energy Potion
+        │
+        ▼
+player_inventory
+│
+│  What does each player own?
+│
+├── Robert → Health Potion ×5
+├── Robert → Iron Sword ×1
+├── Robert → Magic Ring ×1
+└── Alice  → Health Potion ×2

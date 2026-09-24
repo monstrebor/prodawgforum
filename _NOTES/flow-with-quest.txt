@@ -1,0 +1,20 @@
+Robert creates a post
+        ↓
+Application detects the action
+        ↓
+Find Robert's "Make 5 Posts" player_quest
+        ↓
+3 / 5 → 4 / 5
+        ↓
+Robert creates another post
+        ↓
+4 / 5 → 5 / 5
+        ↓
+Quest completed
+        ↓
++100 XP
++50 Gold
+        ↓
+Update playerstats
+        ↓
+Record completion timestamp

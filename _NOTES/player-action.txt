@@ -1,0 +1,25 @@
+users
+│
+├── playerstats
+│     ├── ❤️ lifepoints
+│     ├── ❤️ maxlifepoints
+│     ├── ⭐ xp
+│     ├── ⭐ level
+│     ├── ⚡ energy
+│     ├── ⚡ maxenergy
+│     └── 🪙 gold
+│
+├── player_actions
+│     ├── who acted
+│     ├── target
+│     ├── action type
+│     ├── amount
+│     └── timestamp
+│
+└── point_transactions
+      ├── who caused the change
+      ├── who received the change
+      ├── amount
+      ├── type
+      ├── reason
+      └── timestamp

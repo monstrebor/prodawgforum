@@ -1,0 +1,27 @@
+users
+ │
+ ├── playerstats
+ │      ❤️ Life
+ │      ⭐ XP
+ │      ⚡ Energy
+ │      🪙 Gold
+ │
+ ├── player_actions
+ │      Cooldowns / action limits
+ │
+ ├── point_transactions
+ │      Life Point history
+ │
+ ├── player_quests
+ │      Quest progress
+ │
+ └── player_items
+        Inventory
+
+quests
+ │
+ └── Quest definitions
+
+items
+ │
+ └── Item definitions
