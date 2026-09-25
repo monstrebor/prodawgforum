@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\users\{PostController, FriendshipController, ReactionController, CommentController, ClashOfClanController, ChatController};
+use App\Http\Controllers\{RegisterController, ChessController};
+use App\Http\Controllers\users\{PostController, FriendshipController, ReactionController, CommentController, ClashOfClanController, ChatController, ProfileController};
 use App\Http\Controllers\admin\{LogController, SettingsController, UserController};
-use App\Http\Controllers\users\ProfileController;
 use Illuminate\Support\Facades\{Auth, Route, Artisan};
 use App\Models\User;
 
@@ -37,7 +36,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::post('/update-user', [RegisterController::class, 'updateUser'])->name('admin.update-user');
 
     // Manage Life Points
-    
+
 });
 
 Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
@@ -75,6 +74,34 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
 
     //Chat
     Route::get('/chat-index', [ChatController::class, 'index'])->name('user.chat');
+    /*
+|--------------------------------------------------------------------------
+| Chess
+|--------------------------------------------------------------------------
+*/
+    Route::prefix('chess')->name('user.chess.')->group(function () {
+
+        Route::get('/', [ChessController::class, 'index'])
+            ->name('index');
+
+        Route::post('/single/create', [ChessController::class, 'createSingle'])
+            ->name('single.create');
+
+        Route::post('/multiplayer/create', [ChessController::class, 'createMultiplayer'])
+            ->name('multiplayer.create');
+
+        Route::post('/{game}/join', [ChessController::class, 'joinGame'])
+            ->name('join');
+
+        Route::get('/{game}', [ChessController::class, 'game'])
+            ->name('game');
+
+        Route::get('/{game}/state', [ChessController::class, 'state'])
+            ->name('state');
+
+        Route::post('/{game}/move', [ChessController::class, 'move'])
+            ->name('move');
+    });
 });
 
 Route::post('/logout', [LogController::class, 'logout'])->name('logout');

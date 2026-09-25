@@ -70,7 +70,11 @@ class User extends Authenticatable
         return $this->hasOne(UserProfile::class);
     }
 
-    // RPG PART
+        /*
+    |--------------------------------------------------------------------------
+    | RPG Relations
+    |--------------------------------------------------------------------------
+    */
     public function playerStats()
     {
         return $this->hasOne(PlayerStats::class, 'userid');
@@ -129,6 +133,28 @@ class User extends Authenticatable
     public function sentNotifications()
     {
         return $this->hasMany(Notification::class, 'sender_id');
+    }
+
+        /*
+    |--------------------------------------------------------------------------
+    | Chess Relationships
+    |--------------------------------------------------------------------------
+    */
+
+    public function chessGames()
+    {
+        return $this->hasMany(ChessGame::class, 'white_player_id')
+            ->orWhere('black_player_id', $this->id);
+    }
+
+    public function chessStats()
+    {
+        return $this->hasOne(ChessPlayerStats::class);
+    }
+
+    public function chessMoves()
+    {
+        return $this->hasMany(ChessMove::class, 'player_id');
     }
 }
 
