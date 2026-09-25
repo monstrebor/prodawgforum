@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChessGame;
+use App\Services\Chess\ChessService;
 use App\Models\ChessGamePlayer;
 use App\Models\ChessPlayerStats;
 use Illuminate\Http\Request;
@@ -101,49 +102,15 @@ class ChessController extends Controller
     {
         $user = Auth::user();
 
+        $initialState = ChessService::startingState();
+
         $game = ChessGame::create([
             'mode' => 'multiplayer',
             'white_player_id' => $user->id,
             'black_player_id' => null,
             'status' => 'waiting',
             'current_turn' => 'white',
-            'board_state' => json_encode([
-                'a8' => 'black_rook',
-                'b8' => 'black_knight',
-                'c8' => 'black_bishop',
-                'd8' => 'black_queen',
-                'e8' => 'black_king',
-                'f8' => 'black_bishop',
-                'g8' => 'black_knight',
-                'h8' => 'black_rook',
-
-                'a7' => 'black_pawn',
-                'b7' => 'black_pawn',
-                'c7' => 'black_pawn',
-                'd7' => 'black_pawn',
-                'e7' => 'black_pawn',
-                'f7' => 'black_pawn',
-                'g7' => 'black_pawn',
-                'h7' => 'black_pawn',
-
-                'a2' => 'white_pawn',
-                'b2' => 'white_pawn',
-                'c2' => 'white_pawn',
-                'd2' => 'white_pawn',
-                'e2' => 'white_pawn',
-                'f2' => 'white_pawn',
-                'g2' => 'white_pawn',
-                'h2' => 'white_pawn',
-
-                'a1' => 'white_rook',
-                'b1' => 'white_knight',
-                'c1' => 'white_bishop',
-                'd1' => 'white_queen',
-                'e1' => 'white_king',
-                'f1' => 'white_bishop',
-                'g1' => 'white_knight',
-                'h1' => 'white_rook',
-            ]),
+            'board_state' => json_encode($initialState),
         ]);
 
         ChessGamePlayer::create([
@@ -153,7 +120,10 @@ class ChessController extends Controller
             'joined_at' => now(),
         ]);
 
-        return redirect()->route('user.chess.game', $game);
+        return redirect()->route(
+            'user.chess.game',
+            $game
+        );
     }
 
     /*
@@ -235,39 +205,44 @@ class ChessController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function state(ChessGame $game)
-    {
-        $user = Auth::user();
+public function state(ChessGame $game)
+{
+    $user = Auth::user();
 
-        $player = $game->gamePlayers()
-            ->where('user_id', $user->id)
-            ->first();
+    $player = $game->gamePlayers()
+        ->where('user_id', $user->id)
+        ->first();
 
-        if (!$player) {
-            abort(403);
-        }
-
-        return response()->json([
-            'id' => $game->id,
-            'status' => $game->status,
-            'current_turn' => $game->current_turn,
-            'board_state' => $game->board_state,
-            'white_player_id' => $game->white_player_id,
-            'black_player_id' => $game->black_player_id,
-            'player_color' => $player->color,
-            'moves' => $game->moves()
-                ->orderBy('move_number')
-                ->get([
-                    'move_number',
-                    'from_square',
-                    'to_square',
-                    'piece',
-                    'captured_piece',
-                    'promotion_piece',
-                    'notation',
-                ]),
-        ]);
+    if (!$player) {
+        abort(403, 'You are not a player in this game.');
     }
+
+    return response()->json([
+        'id' => $game->id,
+        'status' => $game->status,
+        'current_turn' => $game->current_turn,
+        'board_state' => $game->board_state,
+        'white_player_id' => $game->white_player_id,
+        'black_player_id' => $game->black_player_id,
+        'player_color' => $player->color,
+
+        'moves' => $game->moves()
+            ->with('player')
+            ->orderBy('move_number')
+            ->get([
+                'id',
+                'game_id',
+                'player_id',
+                'move_number',
+                'from_square',
+                'to_square',
+                'piece',
+                'captured_piece',
+                'promotion_piece',
+                'notation',
+            ]),
+    ]);
+}
 
     /*
     |--------------------------------------------------------------------------
@@ -275,24 +250,31 @@ class ChessController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function move(Request $request, ChessGame $game)
-    {
+    public function move(
+        Request $request,
+        ChessGame $game
+    ) {
         $user = Auth::user();
 
-        $request->validate([
+        $validated = $request->validate([
             'from' => ['required', 'string', 'size:2'],
             'to' => ['required', 'string', 'size:2'],
+            'promotion' => [
+                'nullable',
+                'string',
+                'in:queen,rook,bishop,knight',
+            ],
         ]);
 
         if ($game->mode !== 'multiplayer') {
             return response()->json([
-                'message' => 'This move endpoint is for multiplayer games.'
+                'message' => 'This move endpoint is for multiplayer games.',
             ], 422);
         }
 
         if ($game->status !== 'active') {
             return response()->json([
-                'message' => 'This game is not active.'
+                'message' => 'This game is not active.',
             ], 422);
         }
 
@@ -302,203 +284,130 @@ class ChessController extends Controller
 
         if (!$player) {
             return response()->json([
-                'message' => 'You are not a player in this game.'
+                'message' => 'You are not a player in this game.',
             ], 403);
         }
 
         if ($game->current_turn !== $player->color) {
             return response()->json([
-                'message' => "It is {$game->current_turn}'s turn."
+                'message' => "It is {$game->current_turn}'s turn.",
             ], 422);
         }
 
-        $from = $request->input('from');
-        $to = $request->input('to');
+        $state = ChessService::normalizeState(
+            $game->board_state
+        );
 
-        /*
-        |--------------------------------------------------------------------------
-        | Load board
-        |--------------------------------------------------------------------------
-        */
-
-        if ($game->board_state) {
-            $board = json_decode($game->board_state, true);
-
-            if (!is_array($board)) {
-                return response()->json([
-                    'message' => 'Invalid board state.'
-                ], 500);
-            }
-        } else {
-            $board = [
-                'a8' => 'black_rook',
-                'b8' => 'black_knight',
-                'c8' => 'black_bishop',
-                'd8' => 'black_queen',
-                'e8' => 'black_king',
-                'f8' => 'black_bishop',
-                'g8' => 'black_knight',
-                'h8' => 'black_rook',
-
-                'a7' => 'black_pawn',
-                'b7' => 'black_pawn',
-                'c7' => 'black_pawn',
-                'd7' => 'black_pawn',
-                'e7' => 'black_pawn',
-                'f7' => 'black_pawn',
-                'g7' => 'black_pawn',
-                'h7' => 'black_pawn',
-
-                'a2' => 'white_pawn',
-                'b2' => 'white_pawn',
-                'c2' => 'white_pawn',
-                'd2' => 'white_pawn',
-                'e2' => 'white_pawn',
-                'f2' => 'white_pawn',
-                'g2' => 'white_pawn',
-                'h2' => 'white_pawn',
-
-                'a1' => 'white_rook',
-                'b1' => 'white_knight',
-                'c1' => 'white_bishop',
-                'd1' => 'white_queen',
-                'e1' => 'white_king',
-                'f1' => 'white_bishop',
-                'g1' => 'white_knight',
-                'h1' => 'white_rook',
-            ];
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Validate source piece
-        |--------------------------------------------------------------------------
-        */
-
-        $piece = $board[$from] ?? null;
+        $piece = $state['board'][$validated['from']] ?? null;
 
         if (!$piece) {
             return response()->json([
-                'message' => 'There is no piece on that square.'
+                'message' => 'There is no piece on that square.',
             ], 422);
         }
 
-        $pieceColor = str_starts_with($piece, 'white_')
-            ? 'white'
-            : 'black';
-
-        if ($pieceColor !== $player->color) {
+        try {
+            $result = ChessService::makeMove(
+                $state,
+                $validated['from'],
+                $validated['to'],
+                $player->color,
+                $validated['promotion'] ?? null
+            );
+        } catch (\InvalidArgumentException $e) {
             return response()->json([
-                'message' => 'You cannot move your opponent\'s piece.'
-            ], 403);
+                'message' => $e->getMessage(),
+            ], 422);
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Basic destination validation
-        |--------------------------------------------------------------------------
-        */
+        $nextState = $result['state'];
 
-        $validMoves = $this->getBasicValidMoves(
-            $board,
-            $from
+        $nextTurn = ChessService::opposite(
+            $player->color
         );
-
-        if (!in_array($to, $validMoves, true)) {
-            return response()->json([
-                'message' => 'That is not a valid move.'
-            ], 422);
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Prevent capturing your own piece
-        |--------------------------------------------------------------------------
-        */
-
-        if (
-            isset($board[$to]) &&
-            (
-                str_starts_with($board[$to], 'white_') &&
-                $pieceColor === 'white'
-            ) ||
-            (
-                isset($board[$to]) &&
-                str_starts_with($board[$to], 'black_') &&
-                $pieceColor === 'black'
-            )
-        ) {
-            return response()->json([
-                'message' => 'You cannot capture your own piece.'
-            ], 422);
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Capture
-        |--------------------------------------------------------------------------
-        */
-
-        $capturedPiece = $board[$to] ?? null;
-
-        /*
-        |--------------------------------------------------------------------------
-        | Move piece
-        |--------------------------------------------------------------------------
-        */
-
-        $board[$to] = $piece;
-
-        unset($board[$from]);
-
-        /*
-        |--------------------------------------------------------------------------
-        | Move number
-        |--------------------------------------------------------------------------
-        */
 
         $moveNumber = $game->moves()->count() + 1;
 
-        /*
-        |--------------------------------------------------------------------------
-        | Switch turn
-        |--------------------------------------------------------------------------
-        */
+        $status = 'active';
+        $resultType = null;
+        $winnerId = null;
 
-        $nextTurn = $player->color === 'white'
-            ? 'black'
-            : 'white';
+        if ($result['checkmate']) {
+            $status = 'completed';
+            $resultType = 'checkmate';
+            $winnerId = $user->id;
+        } elseif ($result['stalemate']) {
+            $status = 'completed';
+            $resultType = 'stalemate';
+        }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Save everything
-        |--------------------------------------------------------------------------
-        */
+        $notation = strtoupper(
+            $validated['from'] .
+            '-' .
+            $validated['to']
+        );
 
-        DB::transaction(function () use ($game, $user, $board, $nextTurn, $moveNumber, $from, $to, $piece, $capturedPiece) {
+        if ($result['promotion_piece']) {
+            $notation .= '=' .
+                strtoupper(
+                    substr(
+                        $result['promotion_piece'],
+                        0,
+                        1
+                    )
+                );
+        }
 
+        if ($result['checkmate']) {
+            $notation .= '#';
+        } elseif ($result['check']) {
+            $notation .= '+';
+        }
+
+        DB::transaction(function () use ($game, $user, $nextState, $nextTurn, $moveNumber, $validated, $result, $notation, $status, $resultType, $winnerId, $piece) {
             $game->update([
-                'board_state' => json_encode($board),
+                'board_state' => json_encode(
+                    $nextState
+                ),
                 'current_turn' => $nextTurn,
+                'status' => $status,
+                'result' => $resultType,
+                'winner_id' => $winnerId,
+                'ended_at' => $status === 'completed'
+                    ? now()
+                    : null,
             ]);
 
             $game->moves()->create([
                 'player_id' => $user->id,
                 'move_number' => $moveNumber,
-                'from_square' => $from,
-                'to_square' => $to,
+                'from_square' => $validated['from'],
+                'to_square' => $validated['to'],
                 'piece' => $piece,
-                'captured_piece' => $capturedPiece,
-                'notation' => strtoupper($from . '-' . $to),
-                'board_state' => json_encode($board),
+                'captured_piece' =>
+                    $result['captured_piece'],
+                'promotion_piece' =>
+                    $result['promotion_piece'],
+                'notation' => $notation,
+                'board_state' => json_encode(
+                    $nextState
+                ),
             ]);
         });
 
         return response()->json([
             'success' => true,
-            'message' => 'Move completed.',
-            'board_state' => json_encode($board),
+            'board_state' => json_encode(
+                $nextState
+            ),
             'current_turn' => $nextTurn,
+            'status' => $status,
+            'result' => $resultType,
+            'winner_id' => $winnerId,
+            'check' => $result['check'],
+            'checkmate' => $result['checkmate'],
+            'stalemate' => $result['stalemate'],
+            'promotion_piece' => $result['promotion_piece'],
         ]);
     }
 
