@@ -21,7 +21,7 @@ Route::middleware('guest')->group(function () {
     Route::view('/', 'home.index')->name('login');
     Route::post('/register-store', [RegisterController::class, 'registerUser'])->name('register.store');
     Route::post('/login-store', [LogController::class, 'login'])->name('login.store');
-});
+}); 
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::view('/home-admin', 'admin.index')->name('admin.dashboard');

@@ -8,9 +8,9 @@
 
 @section('content')
     <div class="w-full h-full">
-        @include('users.partials.navbar')
-        @include('users.partials.sidebar')
+        @include('users.partials.users.navbar')
+        @include('users.partials.users.sidebar')
         @include('users.friends.main')
-        @include('users.partials.rightpane')
+        @include('users.partials.users.rightpane')
     </div>
 @endsection

@@ -489,12 +489,12 @@
 <div class="app-layout">
 
     {{-- NAVBAR --}}
-    @include('users.partials.navbar')
+    @include('users.partials.users.navbar')
 
 
     {{-- LEFT SIDEBAR --}}
     <aside class="left-sidebar">
-        @include('users.partials.sidebar')
+        @include('users.partials.users.sidebar')
     </aside>
 
 
@@ -506,7 +506,7 @@
 
     {{-- RIGHT SIDEBAR --}}
     <aside class="right-sidebar" id="rightSidebar">
-        @include('users.partials.rightpane')
+        @include('users.partials.users.rightpane')
     </aside>
 
 
